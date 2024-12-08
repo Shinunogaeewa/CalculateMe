@@ -1,2 +1,54 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+import java.util.Scanner;
+
+
+class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine(); 
+        try {
+            System.out.println(calc(input)); 
+        } catch (Exception e) {
+            System.out.println("Invalid input"); 
+        }
+    }
+
+    public static String calc(String input) {
+        String[] parts = input.split(" ");
+
+        if (parts.length != 3) {
+            throw new IllegalArgumentException("Invalid expression format");
+        }
+
+        int num1 = parseNumber(parts[0]);
+        int num2 = parseNumber(parts[2]);
+        String operator = parts[1];
+
+        switch (operator) {
+            case "+":
+                return String.valueOf(num1 + num2);
+            case "-":
+                return String.valueOf(num1 - num2);
+            case "*":
+                return String.valueOf(num1 * num2);
+            case "/":
+                if (num2 == 0) {
+                    throw new ArithmeticException("Division by zero");
+                }
+                return String.valueOf(num1 / num2);
+            default:
+                throw new IllegalArgumentException("Invalid operator");
+        }
+    }
+
+    private static int parseNumber(String number) {
+        try {
+            int num = Integer.parseInt(number);
+            if (num < 1 || num > 10) {
+                throw new IllegalArgumentException("Number out of range");
+            }
+            return num;
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid number format");
+        }
+    }
+}
